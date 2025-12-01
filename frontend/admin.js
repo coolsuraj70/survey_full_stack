@@ -339,9 +339,6 @@ function renderTable() {
 
         // Button Logic
         const isResolved = f.status === 'resolved';
-        const btnClass = isResolved ? 'btn-success' : 'btn-edit';
-        const btnIcon = isResolved ? 'fa-check' : 'fa-pen';
-        const btnTitle = isResolved ? 'Resolved' : 'Mark as Resolved';
 
         row.innerHTML = `
             <td>${date}</td>
@@ -353,7 +350,6 @@ function renderTable() {
             <td><span class="status-badge ${statusClass}">${f.status}</span></td>
             <td>
                 <button class="action-btn btn-view" onclick="viewDetails(${f.id})" title="View Details"><i class="fas fa-eye"></i></button>
-                <button class="action-btn ${btnClass}" onclick="toggleStatus(${f.id}, '${f.status}')" title="${btnTitle}"><i class="fas ${btnIcon}"></i></button>
             </td>
         `;
         feedbackTableBody.appendChild(row);

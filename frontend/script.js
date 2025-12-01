@@ -33,6 +33,27 @@ document.querySelectorAll('input[type="file"]').forEach(input => {
     });
 });
 
+// Capture ro_number from URL on load
+const roInput = document.getElementById('ro_number');
+if (roInput) {
+    const urlParams = new URLSearchParams(window.location.search);
+    let roNumber = urlParams.get('ro_number') || urlParams.get('ro') || urlParams.get('source_id') || urlParams.get('location');
+
+    if (!roNumber) {
+        for (const [key, value] of urlParams.entries()) {
+            if (['ro_number', 'ro', 'source_id', 'location', 'ronumber'].includes(key.toLowerCase())) {
+                roNumber = value;
+                break;
+            }
+        }
+    }
+
+    if (roNumber) {
+        console.log('Capturing RO Number:', roNumber);
+        roInput.value = roNumber;
+    }
+}
+
 form.addEventListener('submit', async (e) => {
     e.preventDefault();
     const submitBtn = document.getElementById('submitBtn');
@@ -79,46 +100,17 @@ form.addEventListener('submit', async (e) => {
 
     const formData = new FormData(form);
 
-    // Handle checkboxes manually if needed (though FormData usually handles them)
-    // If unchecked, they won't be in FormData, so we might need to append false if backend expects it
+    // Handle checkboxes manually if needed
     if (!formData.has('is_testimonial')) formData.append('is_testimonial', 'false');
     if (!formData.has('terms_accepted')) formData.append('terms_accepted', 'false');
 
-    // Remove empty optional fields to avoid 422 errors (Backend expects int/null, not empty string)
+    // Remove empty optional fields
     const optionalFields = ['rating_air', 'rating_washroom'];
     optionalFields.forEach(field => {
         if (formData.has(field) && formData.get(field) === '') {
             formData.delete(field);
         }
     });
-
-    // Capture ro_number from URL (supporting ro_number, ro, source_id, location - case insensitive)
-    const roInput = document.getElementById('ro_number');
-    if (roInput && roInput.value) {
-        // Already populated (e.g. by previous logic or manual entry if we make it visible)
-    } else {
-        const urlParams = new URLSearchParams(window.location.search);
-        let roNumber = null;
-
-        // Direct check first
-        roNumber = urlParams.get('ro_number') || urlParams.get('ro') || urlParams.get('source_id') || urlParams.get('location');
-
-        // Case insensitive check if not found
-        if (!roNumber) {
-            for (const [key, value] of urlParams.entries()) {
-                const lowerKey = key.toLowerCase();
-                if (['ro_number', 'ro', 'source_id', 'location', 'ronumber'].includes(lowerKey)) {
-                    roNumber = value;
-                    break;
-                }
-            }
-        }
-
-        if (roNumber) {
-            console.log('Capturing RO Number:', roNumber);
-            if (roInput) roInput.value = roNumber;
-        }
-    }
 
     try {
         const response = await fetch('/feedback/', {
