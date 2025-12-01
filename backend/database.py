@@ -10,7 +10,7 @@ database_url = settings.DATABASE_URL
 if database_url and database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
 
-engine = create_engine(database_url, connect_args=connect_args)
+engine = create_engine(database_url, connect_args=connect_args, pool_pre_ping=True, pool_recycle=300)
 
 def create_db_and_tables():
     SQLModel.metadata.create_all(engine)
