@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+    <!-- Login Section -->
+    <div id="loginSection" class="login-container">
+        <div class="login-card">
+            <h2>Admin Login</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+                <button type="submit">Login</button>
+                <p id="loginError" class="error-msg hidden">Invalid credentials</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Dashboard Section -->
+    <div id="dashboardSection" class="dashboard-container hidden">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h3><i class="fas fa-shield-alt"></i> Admin Panel</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="active"><i class="fas fa-chart-line"></i> Dashboard</a>
+                <a href="#" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-bar">
+                <h2>Dashboard Overview</h2>
+                <div class="user-info">
+                    <div class="user-avatar">A</div>
+                    <span>Admin</span>
+                </div>
+            </header>
+
+            <!-- Charts Section -->
+            <div class="charts-grid">
+                <div class="chart-card">
+                    <h3>Air Facility Ratings</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="airRatingChart"></canvas>
+                    </div>
+                </div>
+                <div class="chart-card">
+                    <h3>Washroom Ratings</h3>
+                    <div class="chart-wrapper">
+                        <canvas id="washroomRatingChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters & Search Section -->
+            <div class="filters-card card">
+                <div class="card-header">
+                    <h3>Filters & Search</h3>
+                    <div class="quick-dates">
+                        <button class="quick-date-btn" data-range="today">Today</button>
+                        <button class="quick-date-btn" data-range="7days">Last 7 Days</button>
+                        <button class="quick-date-btn active" data-range="30days">Last 30 Days</button>
+                        <button class="quick-date-btn" data-range="month">This Month</button>
+                        <button class="quick-date-btn" data-range="custom">Custom</button>
+                    </div>
+                </div>
+
+                <div class="filters-grid">
+                    <div class="input-group">
+                        <label>From Date</label>
+                        <input type="date" id="filterDateStart">
+                    </div>
+                    <div class="input-group">
+                        <label>To Date</label>
+                        <input type="date" id="filterDateEnd">
+                    </div>
+                    <div class="input-group">
+                        <label>Status</label>
+                        <select id="filterStatus">
+                            <option value="all">All Status</option>
+                            <option value="pending">Pending</option>
+                            <option value="resolved">Resolved</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>Method</label>
+                        <select id="filterMethod">
+                            <option value="all">All Methods</option>
+                            <option value="web">Web</option>
+                            <option value="whatsapp">WhatsApp</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="search-bar-container">
+                    <div class="search-input-wrapper">
+                        <i class="fas fa-search search-icon"></i>
+                        <input type="text" id="filterSearch" placeholder="Search by RO Number, Phone, or Date...">
+                        <i class="fas fa-times clear-search hidden" id="clearSearchBtn"></i>
+                    </div>
+                </div>
+
+                <div class="active-filters" id="activeFilters">
+                    <!-- Chips will be injected here -->
+                </div>
+
+                <div class="filter-footer">
+                    <span id="resultsCount">Showing 0 results</span>
+                    <div class="filter-actions">
+                        <button id="clearFiltersBtn" class="btn-text-danger hidden">Clear All Filters</button>
+                        <button id="exportBtn" class="btn-success">
+                            <i class="fas fa-file-csv"></i> Export CSV
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Feedback Table -->
+            <div class="table-card card">
+                <div class="card-header">
+                    <h3>Recent Feedback</h3>
+                </div>
+                <div class="table-responsive">
+                    <table id="feedbackTable">
+                        <thead>
+                            <tr>
+                                <th>Date & Time</th>
+                                <th>RO Number</th>
+                                <th>Method</th>
+                                <th>Phone</th>
+                                <th>Air Rating</th>
+                                <th>Washroom Rating</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Rows will be populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Feedback Detail Modal -->
+    <div id="detailModal" class="modal hidden">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2 id="modalPhone">Details</h2>
+            <div class="modal-body">
+                <p><strong>Date:</strong> <span id="modalDate"></span></p>
+                <p><strong>Comment:</strong> <span id="modalComment"></span></p>
+                <p><strong>Testimonial:</strong> <span id="modalTestimonial"></span></p>
+                <div class="modal-images">
+                    <!-- Images injected here -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="admin.js?v=6"></script>
+</body>
+
+</html>

@@ -1,0 +1,267 @@
+:root {
+    --primary-green: #00D98E;
+    --text-color: #333;
+    --border-color: #e0e0e0;
+    --bg-color: #ffffff;
+    --disclaimer-bg: #f5f5f5;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f9f9f9;
+    color: var(--text-color);
+}
+
+.main-header {
+    background-color: var(--primary-green);
+    padding: 1rem;
+    text-align: center;
+}
+
+.main-header h1 {
+    color: white;
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.container {
+    max-width: 900px;
+    margin: 2rem auto;
+    background: var(--bg-color);
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+    margin-bottom: 1.5rem;
+}
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.required::after {
+    content: " *";
+    color: red;
+}
+
+/* Phone Input with Icon */
+.input-with-icon {
+    position: relative;
+}
+
+.input-with-icon i {
+    position: absolute;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #888;
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 0.8rem 1rem 0.8rem 2.5rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+
+/* Checkboxes */
+.checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+    margin-top: 0.25rem;
+}
+
+.checkbox-group label {
+    font-weight: normal;
+    margin: 0;
+}
+
+/* Ratings Section */
+.ratings-container {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.rating-section {
+    flex: 1;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    border-radius: 8px;
+}
+
+.rating-content {
+    flex: 1;
+}
+
+.emoji-rating {
+    display: flex;
+    gap: 0.5rem;
+    margin: 0.5rem 0;
+}
+
+.emoji-btn {
+    background: none;
+    border: 1px solid var(--border-color);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.emoji-btn:hover,
+.emoji-btn.selected {
+    background-color: #f0f0f0;
+    border-color: var(--primary-green);
+    transform: scale(1.1);
+}
+
+.helper-text {
+    font-size: 0.8rem;
+    color: #666;
+    margin: 0;
+}
+
+/* Upload Section inside Rating */
+.upload-section {
+    margin-left: 1rem;
+    text-align: center;
+}
+
+.file-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.file-input-wrapper input[type="file"] {
+    position: absolute;
+    opacity: 0;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+    z-index: 2;
+}
+
+.file-btn {
+    background: #f0f0f0;
+    border: 1px solid #ccc;
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    cursor: pointer;
+}
+
+.file-input-wrapper i {
+    color: #666;
+    font-size: 1rem;
+}
+
+/* Text Area */
+textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 1rem;
+    box-sizing: border-box;
+    resize: vertical;
+}
+
+/* Disclaimer Box */
+.disclaimer-box {
+    background-color: var(--disclaimer-bg);
+    border: 1px solid var(--border-color);
+    padding: 1rem;
+    margin-bottom: 1.5rem;
+    font-size: 0.9rem;
+}
+
+.disclaimer-box p {
+    margin: 0.5rem 0 0 0;
+}
+
+/* Submit Button */
+button[type="submit"] {
+    width: 100%;
+    background-color: var(--primary-green);
+    color: white;
+    border: none;
+    padding: 1rem;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+button[type="submit"]:hover {
+    background-color: #00bf7d;
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .ratings-container {
+        flex-direction: column;
+    }
+
+    .rating-section {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .upload-section {
+        margin-left: 0;
+        margin-top: 1rem;
+        width: 100%;
+    }
+
+    .file-input-wrapper {
+        justify-content: flex-start;
+    }
+}
+
+.hidden {
+    display: none;
+}
+
+#message {
+    margin-top: 1rem;
+    padding: 1rem;
+    text-align: center;
+    border-radius: 4px;
+}
+
+.success {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.error {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
